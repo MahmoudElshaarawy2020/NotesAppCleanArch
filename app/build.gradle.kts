@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.notesappcleanarch"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.notesappcleanarch"
@@ -78,6 +78,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
+
+    //viewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$2.8.1")
     // test
     testImplementation("junit:junit:4.13.2")
 
