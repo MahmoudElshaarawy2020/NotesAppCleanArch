@@ -17,10 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.notesappcleanarch.R
 import com.example.notesappcleanarch.models.NoteModel
 
 @Composable
@@ -36,7 +38,7 @@ fun HomeScreen(
             Row(
                 modifier
                     .fillMaxWidth()
-                    .background(color = MaterialTheme.colorScheme.onPrimary)
+                    .background(color = colorResource(id = R.color.darkBlue))
                     .padding(start = 48.dp, top = 48.dp, bottom = 8.dp),
                 horizontalArrangement = Arrangement.Start,
             ) {
@@ -51,7 +53,7 @@ fun HomeScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { viewModel.addNewNote() },
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = colorResource(id = R.color.yellow),
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -65,7 +67,7 @@ fun HomeScreen(
             modifier = modifier
                 .fillMaxSize()
                 .padding(top = 16.dp)
-                .background(color = MaterialTheme.colorScheme.onBackground),
+                .background(color = colorResource(id = R.color.babyBlue)),
             contentPadding = paddingValues,
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {

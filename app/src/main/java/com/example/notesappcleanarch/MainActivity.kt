@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.notesappcleanarch.add_note.AddNoteScreen
 import com.example.notesappcleanarch.home.HomeScreen
 import com.example.notesappcleanarch.home.HomeViewModel
 import com.example.notesappcleanarch.ui.theme.NotesAppCleanArchTheme
@@ -21,7 +22,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NotesAppCleanArchTheme {
-                HomeScreen(modifier = Modifier,viewModel = HomeViewModel())
+                AddNoteScreen(
+                    modifier = Modifier,
+                    navigateBack = {
+                    }
+                )
             }
         }
     }
