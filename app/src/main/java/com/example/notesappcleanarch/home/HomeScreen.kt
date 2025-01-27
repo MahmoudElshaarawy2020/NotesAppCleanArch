@@ -23,12 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.notesappcleanarch.R
+import com.example.notesappcleanarch.Routes
 import com.example.notesappcleanarch.models.NoteModel
 
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    navigateToAddNote: (String) -> Unit = {}
 ) {
 
     val notes = viewModel.notes
@@ -52,7 +54,8 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { viewModel.addNewNote() },
+                onClick = { viewModel.addNewNote()
+                          navigateToAddNote(Routes.AddNote)},
                 containerColor = colorResource(id = R.color.yellow),
             ) {
                 Icon(
