@@ -20,29 +20,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.notesappcleanarch.R
 import com.example.notesappcleanarch.Routes
 import com.example.notesappcleanarch.models.NoteModel
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun HomeScreen(
     newNote: String? = null,
     modifier: Modifier,
     viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    navigateToAddNote: (String) -> Unit = {}
+    navigateNext: (String) -> Unit = {}
 ) {
 
-    val notes = viewModel.notes
+    val notes = viewModel.notesList
     LaunchedEffect(key1 = newNote) {
         if (newNote.isNullOrEmpty()) return@LaunchedEffect
 
         val newNoteObj = Gson().fromJson(newNote, NoteModel::class.java)
         viewModel.saveNote(newNoteObj)
 
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is HomeViewModel.HomeEvent.NavigateNext -> navigateNext(event.route)
+            }
+        }
     }
     Scaffold(
         topBar = {
@@ -63,8 +71,10 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { viewModel.addNewNote()
-                          navigateToAddNote(Routes.AddNote)},
+                onClick = {
+                    viewModel.addNewNote()
+                    navigateNext(Routes.AddNote + "/-1")
+                },
                 containerColor = colorResource(id = R.color.yellow),
             ) {
                 Icon(
@@ -86,11 +96,11 @@ fun HomeScreen(
             items(notes.size) { index ->
                 val note = notes[index]
                 NoteCard(modifier = modifier,
-                     note = NoteModel(
-                         id = note.id,
-                         title = note.title,
-                         description = note.description,
-                     ),
+                    note = NoteModel(
+                        id = note.id,
+                        title = note.title,
+                        description = note.description,
+                    ),
                     onClick = {
                         viewModel.listItemOnClick(note.id)
                     }

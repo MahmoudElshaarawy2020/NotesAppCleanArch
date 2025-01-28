@@ -5,17 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.notesappcleanarch.add_note.AddNoteScreen
 import com.example.notesappcleanarch.home.HomeScreen
 import com.example.notesappcleanarch.home.HomeViewModel
@@ -41,11 +37,18 @@ class MainActivity : ComponentActivity() {
                             newNote = newNote?.value,
                             modifier = Modifier,
                             viewModel = homeViewModel,
-                            navigateToAddNote = { navController.navigate(it) }
+                            navigateNext = { navController.navigate(it) }
                         )
                     }
 
-                    composable(Routes.AddNote) {
+                    composable(
+                        route = Routes.AddNote + "/{id}",
+                        arguments = listOf(
+                            navArgument("id") {
+                                type = NavType.IntType
+                                defaultValue = -1
+                            }
+                        )) {
                         AddNoteScreen(
                             modifier = Modifier,
                             navigateBack = {newNote ->
