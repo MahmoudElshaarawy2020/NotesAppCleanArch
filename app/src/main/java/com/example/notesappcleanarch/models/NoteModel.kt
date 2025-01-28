@@ -8,7 +8,7 @@ data class NoteModel(
 
 fun dummyNotes(): List<NoteModel> {
     val items = arrayListOf<NoteModel>()
-    for (i in 1..10) {
+    for (i in 1..3) {
         items.add(
             NoteModel(
                 id = i,

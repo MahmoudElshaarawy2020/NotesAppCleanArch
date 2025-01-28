@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -25,16 +26,24 @@ import androidx.compose.ui.unit.sp
 import com.example.notesappcleanarch.R
 import com.example.notesappcleanarch.Routes
 import com.example.notesappcleanarch.models.NoteModel
+import com.google.gson.Gson
 
 @Composable
 fun HomeScreen(
+    newNote: String? = null,
     modifier: Modifier,
-    viewModel: HomeViewModel,
+    viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     navigateToAddNote: (String) -> Unit = {}
 ) {
 
     val notes = viewModel.notes
+    LaunchedEffect(key1 = newNote) {
+        if (newNote.isNullOrEmpty()) return@LaunchedEffect
 
+        val newNoteObj = Gson().fromJson(newNote, NoteModel::class.java)
+        viewModel.saveNote(newNoteObj)
+
+    }
     Scaffold(
         topBar = {
             Row(
